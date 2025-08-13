@@ -71,18 +71,18 @@ const view = (estado) => `
 `;
 
 // ---------------- Função para atualizar estado ----------------
-const palavras = ["VERDE", "TERMO", "CARTA", "PIZZA", "NUVEM"];
-const novaPalavra = () => palavras[Math.floor(Math.random() * palavras.length)];
+const palavraEscolhida = "TERMO"; // Substitua pela palavra que desejar
 
 const updateState = (estado, acao) => {
   if (acao.type === "tentar") {
     return tentarPalavra(estado, acao.payload);
   }
   if (acao.type === "reiniciar") {
-    return inicializarJogo(novaPalavra());
+    return inicializarJogo(palavraEscolhida); // Sempre retorna a palavra fixa
   }
   return estado;
 };
+
 
 // ---------------- Loop funcional com único efeito colateral ----------------
 const app = (estado) => {
@@ -99,4 +99,4 @@ const app = (estado) => {
 };
 
 // ---------------- Início ----------------
-app(inicializarJogo(novaPalavra()));
+app(inicializarJogo(palavraEscolhida));
