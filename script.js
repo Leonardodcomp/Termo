@@ -7,30 +7,32 @@ const inicializarJogo = (palavra) => ({
 
 // ---------------- Funções puras ----------------
 const verificarTentativa = (palavra, tentativa) => {
-  const resultado = [];
-  const letrasRestantes = palavra.split("");
+  const letrasIniciais = palavra.split("");
 
-  // Primeiro: marca as corretas
-  tentativa.split("").forEach((letra, i) => {
-    if (palavra[i] === letra) {
-      resultado[i] = { letra, status: "correct" };
-      letrasRestantes[i] = null; // remove essa letra
-    }
-  });
-
-  // Depois: marca presentes e ausentes
-  tentativa.split("").forEach((letra, i) => {
-    if (!resultado[i]) {
-      if (letrasRestantes.includes(letra)) {
-        resultado[i] = { letra, status: "present" };
-        letrasRestantes[letrasRestantes.indexOf(letra)] = null;
-      } else {
-        resultado[i] = { letra, status: "absent" };
+  // Passo 1: processa corretas
+  const { resultadoParcial, letrasRestantes } = tentativa.split("").reduce(
+    (acc, letra, i) => {
+      if (palavra[i] === letra) {
+        acc.resultadoParcial[i] = { letra, status: "correct" };
+        acc.letrasRestantes[i] = null;
       }
-    }
-  });
+      return acc;
+    },
+    { resultadoParcial: [], letrasRestantes: [...letrasIniciais] }
+  );
 
-  return resultado;
+  // Passo 2: processa presentes/ausentes
+  return tentativa.split("").map((letra, i) => {
+    if (resultadoParcial[i]) return resultadoParcial[i];
+    
+    const indexPresente = letrasRestantes.indexOf(letra);
+    if (indexPresente !== -1) {
+      letrasRestantes[indexPresente] = null;
+      return { letra, status: "present" };
+    }
+    
+    return { letra, status: "absent" };
+  });
 };
 
 const jogoVencido = (estado) =>
