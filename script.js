@@ -83,8 +83,7 @@ const updateState = (estado, acao) => {
   return estado;
 };
 
-
-// ---------------- Loop funcional com único efeito colateral ----------------
+// ------- logica
 const app = (estado) => {
   document.getElementById("app").innerHTML = view(estado);
 
