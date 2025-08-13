@@ -98,6 +98,3 @@ const app = (estado) => {
 
 // ---------------- Início ----------------
 app(inicializarJogo(novaPalavra()));
-
-
-// teste de commit
