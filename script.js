@@ -10,16 +10,23 @@ const verificarTentativa = (palavra, tentativa) => {
   const letrasIniciais = palavra.split("");
 
   // Passo 1: processa corretas
-  const { resultadoParcial, letrasRestantes } = tentativa.split("").reduce(
-    (acc, letra, i) => {
-      if (palavra[i] === letra) {
-        acc.resultadoParcial[i] = { letra, status: "correct" };
-        acc.letrasRestantes[i] = null;
-      }
-      return acc;
-    },
-    { resultadoParcial: [], letrasRestantes: [...letrasIniciais] }
-  );
+const { resultadoParcial, letrasRestantes } = tentativa.split("").reduce(
+  (acc, letra, i) => {
+    const novoResultado = [...acc.resultadoParcial];
+    const novasLetrasRestantes = [...acc.letrasRestantes];
+    
+    if (palavra[i] === letra) {
+      novoResultado[i] = { letra, status: "correct" };
+      novasLetrasRestantes[i] = null;
+    }
+
+    return {
+      resultadoParcial: novoResultado,
+      letrasRestantes: novasLetrasRestantes
+    };
+  },
+  { resultadoParcial: [], letrasRestantes: [...letrasIniciais] }
+);
 
   // Passo 2: processa presentes/ausentes
   return tentativa.split("").map((letra, i) => {
