@@ -148,7 +148,7 @@ const updateState = (estado, acao) => {
 
   //Botão reiniciar, reinicia o jogo.
   if (acao.type === "reiniciar") {
-    return inicializarJogo(palavraEscolhida); // Sempre retorna a palavra fixa
+    return location.reload(true); // Sempre retorna a palavra fixa
   }
   return estado;
 };
